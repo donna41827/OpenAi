@@ -10,41 +10,44 @@ key = key_file.read()
 print(f'key={key}')
 openai.api_key = key
 
-training_data_path = f"{root_path}DataSource\ImsSystemMaintainSulotion.jsonl"
+model_name_file = open(f'{root_path}finetune_model_name.txt', "r+", encoding='utf-8')
+model_name = model_name_file.read()
 
-upload_response = openai.File.create(
-  file=open(training_data_path, "rb"),
-  purpose='fine-tune'
-)
+if model_name == '':
+    training_data_path = f"{root_path}DataSource\ImsSystemMaintainSulotion.jsonl"
 
-file_id = upload_response.id
+    upload_response = openai.File.create(
+    file=open(training_data_path, "rb"),
+    purpose='fine-tune'
+    )
 
-FineTune = openai.FineTune.create(
-    model = 'ada',
-    training_file=file_id
-)
-print(FineTune)
+    file_id = upload_response.id
 
-response = openai.FineTune.retrieve(FineTune.id)
+    FineTune = openai.FineTune.create(
+        model = 'ada',
+        training_file=file_id
+    )
+    print(FineTune)
 
-total_time = 0
-
-while response.fine_tuned_model is None:
-    time.sleep(10)
-    total_time += 10
     response = openai.FineTune.retrieve(FineTune.id)
-    print(response)
-    print(f'total time:{total_time}sec')
 
-model_name = response.fine_tuned_model
+    total_time = 0
+
+    while response.fine_tuned_model is None:
+        time.sleep(10)
+        total_time += 10
+        response = openai.FineTune.retrieve(FineTune.id)
+        print(response)
+        print(f'total time:{total_time}sec')
+
+    model_name = response.fine_tuned_model
+    model_name_file.write(model_name)
 
 while True:  
     completion = openai.Completion.create(
       model = model_name,
-      prompt = [
-            {"role": "system", "content": "系統訊息，目前無用"},
-            {"role": "assistant", "content": "此處填入機器人訊息"},
-            {"role": "user", "content": input("You: ")}
-        ]
+      prompt=input("You: "),
+      max_tokens=18, 
+      temperature=1
     )
-    print(completion.choices[0].message.content)
+    print(completion.choices[0]['text'])

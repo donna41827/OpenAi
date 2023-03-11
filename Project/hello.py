@@ -8,12 +8,8 @@ print(f'key={key}')
 openai.api_key = key
 
 while True:  
-    completion = openai.ChatCompletion.create(
-      model="gpt-3.5-turbo",
-      messages=[
-            {"role": "system", "content": "系統訊息，目前無用"},
-            {"role": "assistant", "content": "此處填入機器人訊息"},
-            {"role": "user", "content": input("You: ")}
-        ]
+    completion = openai.Completion.create(
+      model="text-davinci-003",
+      prompt=input("You: ")
     )
-    print(completion.choices[0].message.content)
+    print(completion.choices[0]['text'])
