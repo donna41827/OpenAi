@@ -1,0 +1,1 @@
+{"prompt": "可賣量\n異常", "completion": "可賣量異動失敗時，可以查看Log是否有查無SkuId等訊息，代表OSM人員刪除賣場，直接封存JOB"}
