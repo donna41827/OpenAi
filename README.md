@@ -13,12 +13,12 @@ Step2.
 Step3.
 
 執行命令
-python .\Project\hello.py
+```python .\Project\hello.py
 python .\Project\chatbot.py
-python .\Project\fine_tune.py
+python .\Project\fine_tune.py```
 
 
 說明
-hello.py 為單純串接ChatBot
+```hello.py 為單純串接ChatBot
 chatbot.py 加入Source訊息
-fine_tune.py 嘗試使用fine_tune
+fine_tune.py 嘗試使用fine_tune```
