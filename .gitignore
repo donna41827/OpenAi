@@ -1,3 +1,4 @@
 SECRET_KEY.txt
 finetune_model_name.txt
-notion金鑰.txt
+notion_database_id.txt
+notion_secret_key.txt
